@@ -1,0 +1,97 @@
+<style>
+    .embed-photo-selected-photo {
+        border-color: blue;
+        border-style: solid;
+        border-width: 5px;
+    }
+</style>
+<script>
+    var initializeEmbedPhotoDialog = function () {
+        $('.embed-photo-selected-photo').each(function (index) {
+            $(this).removeClass('embed-photo-selected-photo');
+        });
+        getPhotoAlbumList();
+        $('#embedPhotoModal').modal();
+    };
+    var choosePhotoFromAlbum = function (album) {
+        $.post("embedphotos/album", {name: album}, 
+            function(data) {
+                if (data['status']) {
+                    $('#embedPhotoModalBodyAlbumDialog').html('<a href="#" onclick="getPhotoAlbumList();return false;">Choose a different album...</a><hr>')
+                    $('#embedPhotoModalBodyAlbumDialog').append(data['content']);
+                    $('#embedPhotoModalBodyAlbumDialog').click(function (evt) {
+                        evt.preventDefault();
+                        var image = document.getElementById(evt.target.id);
+                        if (typeof($(image).parent()[0]) !== 'undefined') {
+                            var imageparent = document.getElementById($(image).parent()[0].id);
+                            $(imageparent).toggleClass('embed-photo-selected-photo');        
+                        }
+                    });
+                    $('#embedPhotoModalBodyAlbumListDialog').addClass('hide');
+                    $('#embedPhotoModalBodyAlbumDialog').removeClass('hide');
+                    $('#embed-photo-OKButton').click(function () {
+                        $('.embed-photo-selected-photo').each(function (index) {
+                            var href = $(this).attr('href');
+                            $.post("embedphotos/photolink", {href: href}, 
+                                function(ddata) {
+                                    if (ddata['status']) {
+                                        addeditortext(ddata['photolink']);
+                                    } else {
+                                        window.console.log('Error getting photo link' + ':' + ddata['errormsg']);
+                                    }
+                                    return false;
+                                },
+                            'json');
+                        });
+                        $('#embedPhotoModalBodyAlbumDialog').html('');
+                        $('#embedPhotoModalBodyAlbumDialog').off('click');
+                        $('#embedPhotoModal').modal('hide');
+                    });
+                } else {
+                    window.console.log('Error getting album ' + JSON.stringify(album) + ':' + data['errormsg']);
+                }
+                return false;
+            },
+        'json');
+    };
+    var getPhotoAlbumList = function () {
+        $.post("embedphotos/albumlist", {}, 
+            function(data) {
+                if (data['status']) {
+                    $('#embedPhotoModalBodyAlbumList').html(data['content']);
+                    $('#embedPhotoModalBodyAlbumDialog').addClass('hide');
+                    $('#embedPhotoModalBodyAlbumListDialog').removeClass('hide');
+                } else {
+                    window.console.log('Error getting album list' + ':' + data['errormsg']);
+                }
+                return false;
+            },
+        'json');
+    };
+</script>
+<button id="embed-photo-wrapper" class="btn btn-default btn-sm" title="Embed a photo" onclick="initializeEmbedPhotoDialog();return false;">
+    <i id="embed-photo" class="icon-picture jot-icons"></i>
+</button>
+<!-- Modal for embed photo-->
+<div class="modal" id="embedPhotoModal" tabindex="-1" role="dialog" aria-labelledby="expiryModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="embedPhotoModalLabel">Embed a Photo</h4>
+      </div>
+     <div class="modal-body" id="embedPhotoModalBody" >
+         <div id="embedPhotoModalBodyAlbumListDialog" class="hide">
+            <h4>Choose an album</h4>
+            <div id="embedPhotoModalBodyAlbumList"></div>
+         </div>
+         <div id="embedPhotoModalBodyAlbumDialog" class="hide">
+         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button id="embed-photo-OKButton" type="button" class="btn btn-primary">OK</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
