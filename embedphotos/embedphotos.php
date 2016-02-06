@@ -4,7 +4,7 @@
  *
  * Name: Embed Photos
  * Description: Adds a button to the post editor that lets you browse album galleries and select linked images to embed in the post.
- * Version: 0.1.0
+ * Version: 0.2.0
  * Author: Andrew Manning <andrew@reticu.li>
  * MinVersion: 1.1.2
  *
@@ -12,10 +12,14 @@
 
 function embedphotos_load() {
     register_hook('jot_tool', 'addon/embedphotos/embedphotos.php', 'embedphotos_jot_tool');
+    register_hook('display_item', 'addon/embedphotos/embedphotos.php', 'embedphotos_display_item');
+    register_hook('comment_buttons', 'addon/embedphotos/embedphotos.php', 'embedphotos_comment_buttons');
 }
 
 function embedphotos_unload() {
     unregister_hook('jot_tool', 'addon/embedphotos/embedphotos.php', 'embedphotos_jot_tool');
+    unregister_hook('display_item', 'addon/embedphotos/embedphotos.php', 'embedphotos_display_item');
+    unregister_hook('comment_buttons', 'addon/embedphotos/embedphotos.php', 'embedphotos_comment_buttons');
 }
 function embedphotos_install() {
     
@@ -37,16 +41,16 @@ function embedphotos_post($a) {
             json_return_and_die(array('errormsg' => 'Error retrieving album', 'status' => false));
         }
         $album = embedphotos_widget_album(array('channel' => $a->get_channel(), 'album' => $name));   
-        $album_list = embedphotos_album_list($a);
-        logger('album: ' . $album);
+//        $album_list = embedphotos_album_list($a);
+//        logger('album: ' . $album);
         json_return_and_die(array('status' => true, 'content' => $album));
 
     }
     if (argc() > 1 && argv(1) === 'albumlist') {
         // API: /embedphotos/albumlist
-        $album = embedphotos_widget_album(array('channel' => $a->get_channel(), 'album' => $name));   
+//        $album = embedphotos_widget_album(array('channel' => $a->get_channel(), 'album' => $name));   
         $album_list = embedphotos_album_list($a);
-        json_return_and_die(array('status' => true, 'content' => $album_list));
+        json_return_and_die(array('status' => true, 'albumlist' => $album_list));
 
     }
     if (argc() > 1 && argv(1) === 'photolink') {
@@ -77,7 +81,13 @@ function embedphotos_post($a) {
 
 function embedphotos_jot_tool ($a, &$b) {
     $b .= replace_macros(get_markup_template('jot_tool.tpl', 'addon/embedphotos'), array(
-        '$modalbody' => embedphotos_album_list($a)
+//        '$modalbody' => embedphotos_album_list($a)
+    ));
+}
+
+function embedphotos_comment_buttons ($a, &$b) {
+    $b['comment_buttons'] = replace_macros(get_markup_template('embedphotos_button_comment.tpl', 'addon/embedphotos'), array(
+        '$id' => $b['id']
     ));
 }
 
@@ -86,19 +96,10 @@ function embedphotos_album_list($a) {
     require_once('include/photos.php');
     $p = photos_albums_list($a->get_channel(), $a->get_observer());
     if ($p['success']) {
-        $o .= '<ul>';
-        $albums = $p['albums'];
-        foreach ($albums as $album) {
-            $name = $album['text'];
-            $o .= '<li>';
-            $o .= '<a href="#" onclick="choosePhotoFromAlbum(\'' . $name . '\');return false;">' . $name . '</a>';
-            $o .= '</li>';
-        }
-        $o .= '</ul>';
+        return $p['albums'];
     } else {
-        $o = 'Error retrieving album list';
+        return null;
     }
-    return $o;
 }
 
 /**
@@ -209,4 +210,12 @@ function embedphotos_widget_album($args) {
     ));
 
     return $o;
+}
+
+function embedphotos_display_item ($a, &$b) {
+    $cnt = preg_match("/\"comment-edit-wrapper-(.*?)\"/ism", $b['output']['comment'], $matches);
+    logger('matches: ' . json_encode($matches));
+    $b['output']['comment'] .= replace_macros(get_markup_template('embedphotos_button_comment_modal.tpl', 'addon/embedphotos'), array(
+        '$id' => $matches[1]
+    ));
 }

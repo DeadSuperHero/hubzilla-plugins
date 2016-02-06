@@ -58,7 +58,16 @@
         $.post("embedphotos/albumlist", {}, 
             function(data) {
                 if (data['status']) {
-                    $('#embedPhotoModalBodyAlbumList').html(data['content']);
+                    var albums = data['albumlist']; //JSON.parse(data['albumlist']);
+                    $('#embedPhotoModalBodyAlbumList').html('<ul>');
+                    for(var i=0; i<albums.length; i++) {
+                        var albumName = albums[i].text;
+                        var albumLink = '<li>';
+                        albumLink += '<a href="#" onclick="choosePhotoFromAlbum(\'' + albumName + '\');return false;">' + albumName + '</a>';
+                        albumLink += '</li>';
+                        $('#embedPhotoModalBodyAlbumList').append(albumLink);
+                    }
+                    $('#embedPhotoModalBodyAlbumList').append('</ul>');
                     $('#embedPhotoModalBodyAlbumDialog').addClass('hide');
                     $('#embedPhotoModalBodyAlbumListDialog').removeClass('hide');
                 } else {
@@ -69,9 +78,7 @@
         'json');
     };
 </script>
-<button id="embed-photo-wrapper" class="btn btn-default btn-sm" title="Embed a photo" onclick="initializeEmbedPhotoDialog();return false;">
-    <i id="embed-photo" class="icon-picture jot-icons"></i>
-</button>
+{{include file="addon/embedphotos/view/tpl/embedphotos_button.tpl"}}
 <!-- Modal for embed photo-->
 <div class="modal" id="embedPhotoModal" tabindex="-1" role="dialog" aria-labelledby="expiryModalLabel" aria-hidden="true">
   <div class="modal-dialog">
