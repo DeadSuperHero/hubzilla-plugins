@@ -6,10 +6,11 @@
     }
 </style>
 <script>
-    var initializeEmbedPhotoDialogComment{{$id}} = function (id) {
+    var initializeEmbedPhotoDialogComment{{$id}} = function () {
         $('.embed-photo-selected-photo').each(function (index) {
             $(this).removeClass('embed-photo-selected-photo');
         });
+        $('#embedPhotoModalBodyAlbumDialog-{{$id}}').off('click');
         getPhotoAlbumListComment{{$id}}();
         $('#embedPhotoModal-{{$id}}').modal('show');
     };
@@ -17,7 +18,7 @@
         $.post("embedphotos/album", {name: album}, 
             function(data) {
                 if (data['status']) {
-                    $('#embedPhotoModalBodyAlbumDialog-{{$id}}').html('<a href="#" onclick="getPhotoAlbumListComment{{$id}}();return false;">Choose a different album...</a><hr>')
+                    $('#embedPhotoModalBodyAlbumDialog-{{$id}}').html('<a href="#" onclick="initializeEmbedPhotoDialogComment{{$id}}();return false;">Choose a different album...</a><hr>')
                     $('#embedPhotoModalBodyAlbumDialog-{{$id}}').append(data['content']);
                     $('#embedPhotoModalBodyAlbumDialog-{{$id}}').click(function (evt) {
                         evt.preventDefault();
@@ -89,7 +90,7 @@
     };
 </script>
 <div class='btn-group'>
-<button id="embed-photo-wrapper-comment" class="btn btn-default btn-xs" title="Embed a photo" onclick="initializeEmbedPhotoDialogComment{{$id}}({{$id}});return false;">
+<button id="embed-photo-wrapper-comment" class="btn btn-default btn-xs" title="Embed a photo" onclick="initializeEmbedPhotoDialogComment{{$id}}();return false;">
     <i id="embed-photo-comment" class="icon-picture jot-icons"></i>
 </button>
 </div>

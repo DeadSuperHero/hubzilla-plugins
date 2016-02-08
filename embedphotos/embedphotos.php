@@ -4,7 +4,7 @@
  *
  * Name: Embed Photos
  * Description: Adds a button to the post editor that lets you browse album galleries and select linked images to embed in the post.
- * Version: 0.2.0
+ * Version: 0.2.1
  * Author: Andrew Manning <andrew@reticu.li>
  * MinVersion: 1.1.2
  *
@@ -81,7 +81,6 @@ function embedphotos_post($a) {
 
 function embedphotos_jot_tool ($a, &$b) {
     $b .= replace_macros(get_markup_template('jot_tool.tpl', 'addon/embedphotos'), array(
-//        '$modalbody' => embedphotos_album_list($a)
     ));
 }
 

@@ -11,13 +11,14 @@
             $(this).removeClass('embed-photo-selected-photo');
         });
         getPhotoAlbumList();
+        $('#embedPhotoModalBodyAlbumDialog').off('click');
         $('#embedPhotoModal').modal();
     };
     var choosePhotoFromAlbum = function (album) {
         $.post("embedphotos/album", {name: album}, 
             function(data) {
                 if (data['status']) {
-                    $('#embedPhotoModalBodyAlbumDialog').html('<a href="#" onclick="getPhotoAlbumList();return false;">Choose a different album...</a><hr>')
+                    $('#embedPhotoModalBodyAlbumDialog').html('<a href="#" onclick="initializeEmbedPhotoDialog();return false;">Choose a different album...</a><hr>')
                     $('#embedPhotoModalBodyAlbumDialog').append(data['content']);
                     $('#embedPhotoModalBodyAlbumDialog').click(function (evt) {
                         evt.preventDefault();
