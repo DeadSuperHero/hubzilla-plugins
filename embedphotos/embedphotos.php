@@ -4,7 +4,7 @@
  *
  * Name: Embed Photos
  * Description: Adds a button to the post editor that lets you browse album galleries and select linked images to embed in the post.
- * Version: 0.2.1
+ * Version: 0.2.2
  * Author: Andrew Manning <andrew@reticu.li>
  * MinVersion: 1.1.2
  *

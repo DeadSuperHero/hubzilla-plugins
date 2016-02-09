@@ -18,7 +18,15 @@
         $.post("embedphotos/album", {name: album}, 
             function(data) {
                 if (data['status']) {
-                    $('#embedPhotoModalBodyAlbumDialog-{{$id}}').html('<a href="#" onclick="initializeEmbedPhotoDialogComment{{$id}}();return false;">Choose a different album...</a><hr>')
+                    $('#embedPhotoModalLabel-{{$id}}').html('Choose images to embed');
+                    $('#embedPhotoModalBodyAlbumDialog-{{$id}}').html('\
+                            <div><ul class="nav">\n\
+                                <li><a href="#" onclick="initializeEmbedPhotoDialogComment{{$id}}();return false;">\n\
+                                    <i class="icon-chevron-left"></i>&nbsp\n\
+                                    Choose a different album...\n\
+                                    </a>\n\
+                                </li>\n\
+                            </ul><br></div>')
                     $('#embedPhotoModalBodyAlbumDialog-{{$id}}').append(data['content']);
                     $('#embedPhotoModalBodyAlbumDialog-{{$id}}').click(function (evt) {
                         evt.preventDefault();
@@ -70,13 +78,14 @@
             function(data) {
                 if (data['status']) {
                     var albums = data['albumlist']; //JSON.parse(data['albumlist']);
-                    $('#embedPhotoModalBodyAlbumList-{{$id}}').html('<ul>');
+                    $('#embedPhotoModalLabel-{{$id}}').html('Choose an album');
+                    $('#embedPhotoModalBodyAlbumList-{{$id}}').html('<ul class="nav"></ul>');
                     for(var i=0; i<albums.length; i++) {
                         var albumName = albums[i].text;
                         var albumLink = '<li>';
                         albumLink += '<a href="#" onclick="choosePhotoFromAlbumComment{{$id}}(\'' + albumName + '\');return false;">' + albumName + '</a>';
                         albumLink += '</li>';
-                        $('#embedPhotoModalBodyAlbumList-{{$id}}').append(albumLink);
+                        $('#embedPhotoModalBodyAlbumList-{{$id}}').find('ul').append(albumLink);
                     }
                     $('#embedPhotoModalBodyAlbumList-{{$id}}').append('</ul>');
                     $('#embedPhotoModalBodyAlbumDialog-{{$id}}').addClass('hide');

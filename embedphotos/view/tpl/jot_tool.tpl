@@ -18,7 +18,15 @@
         $.post("embedphotos/album", {name: album}, 
             function(data) {
                 if (data['status']) {
-                    $('#embedPhotoModalBodyAlbumDialog').html('<a href="#" onclick="initializeEmbedPhotoDialog();return false;">Choose a different album...</a><hr>')
+                    $('#embedPhotoModalLabel').html('Choose images to embed');
+                    $('#embedPhotoModalBodyAlbumDialog').html('\
+                            <div><ul class="nav">\n\
+                                <li><a href="#" onclick="initializeEmbedPhotoDialog();return false;">\n\
+                                    <i class="icon-chevron-left"></i>&nbsp\n\
+                                    Choose a different album...\n\
+                                    </a>\n\
+                                </li>\n\
+                            </ul><br></div>')
                     $('#embedPhotoModalBodyAlbumDialog').append(data['content']);
                     $('#embedPhotoModalBodyAlbumDialog').click(function (evt) {
                         evt.preventDefault();
@@ -60,15 +68,15 @@
             function(data) {
                 if (data['status']) {
                     var albums = data['albumlist']; //JSON.parse(data['albumlist']);
-                    $('#embedPhotoModalBodyAlbumList').html('<ul>');
+                    $('#embedPhotoModalLabel').html('Choose an album');
+                    $('#embedPhotoModalBodyAlbumList').html('<ul class="nav"></ul>');
                     for(var i=0; i<albums.length; i++) {
                         var albumName = albums[i].text;
                         var albumLink = '<li>';
                         albumLink += '<a href="#" onclick="choosePhotoFromAlbum(\'' + albumName + '\');return false;">' + albumName + '</a>';
                         albumLink += '</li>';
-                        $('#embedPhotoModalBodyAlbumList').append(albumLink);
+                        $('#embedPhotoModalBodyAlbumList').find('ul').append(albumLink);
                     }
-                    $('#embedPhotoModalBodyAlbumList').append('</ul>');
                     $('#embedPhotoModalBodyAlbumDialog').addClass('hide');
                     $('#embedPhotoModalBodyAlbumListDialog').removeClass('hide');
                 } else {
@@ -90,7 +98,6 @@
       </div>
      <div class="modal-body" id="embedPhotoModalBody" >
          <div id="embedPhotoModalBodyAlbumListDialog" class="hide">
-            <h4>Choose an album</h4>
             <div id="embedPhotoModalBodyAlbumList"></div>
          </div>
          <div id="embedPhotoModalBodyAlbumDialog" class="hide">

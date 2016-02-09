@@ -8,7 +8,6 @@
       </div>
      <div class="modal-body" id="embedPhotoModalBody-{{$id}}" >
          <div id="embedPhotoModalBodyAlbumListDialog-{{$id}}" class="hide">
-            <h4>Choose an album</h4>
             <div id="embedPhotoModalBodyAlbumList-{{$id}}"></div>
          </div>
          <div id="embedPhotoModalBodyAlbumDialog-{{$id}}" class="hide">
