@@ -99,7 +99,7 @@
     };
 </script>
 <div class='btn-group'>
-<button id="embed-photo-wrapper-comment" class="btn btn-default btn-xs" title="Embed a photo" onclick="initializeEmbedPhotoDialogComment{{$id}}();return false;">
+<button id="embed-photo-wrapper-comment-{{$id}}" class="btn btn-default btn-xs" title="Embed a photo" onclick="initializeEmbedPhotoDialogComment{{$id}}();return false;">
     <i id="embed-photo-comment" class="icon-picture jot-icons"></i>
 </button>
 </div>

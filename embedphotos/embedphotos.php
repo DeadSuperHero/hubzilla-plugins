@@ -4,7 +4,7 @@
  *
  * Name: Embed Photos
  * Description: Adds a button to the post editor that lets you browse album galleries and select linked images to embed in the post.
- * Version: 0.2.2
+ * Version: 0.2.3
  * Author: Andrew Manning <andrew@reticu.li>
  * MinVersion: 1.1.2
  *
@@ -214,7 +214,9 @@ function embedphotos_widget_album($args) {
 function embedphotos_display_item ($a, &$b) {
     $cnt = preg_match("/\"comment-edit-wrapper-(.*?)\"/ism", $b['output']['comment'], $matches);
     logger('matches: ' . json_encode($matches));
-    $b['output']['comment'] .= replace_macros(get_markup_template('embedphotos_button_comment_modal.tpl', 'addon/embedphotos'), array(
-        '$id' => $matches[1]
-    ));
+    if($b['output']['comment'] !== "") {
+        $b['output']['comment'] .= replace_macros(get_markup_template('embedphotos_button_comment_modal.tpl', 'addon/embedphotos'), array(
+            '$id' => $matches[1]
+        ));
+    }
 }
