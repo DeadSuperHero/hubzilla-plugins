@@ -19,3 +19,5 @@ Then enable the individual plugins through the admin settings interface.
 ## Plugins
 ### Embed Photos
 Adds a button to the post editor that lets you browse album galleries and select linked images to embed in the post.
+### Hubzilla Documentation
+Overrides the core Help module to provide improved documentation.
