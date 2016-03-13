@@ -7,13 +7,13 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
         <!-- Le styles -->
-        <link href="/addon/help/view/css/bootswatch/Cosmo/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen">
-        <link href="/addon/help/view/css/jquery.tocify.css" rel="stylesheet" type="text/css" media="screen">
-        <link href="/addon/help/view/css/jquery-ui.css" rel="stylesheet" type="text/css" media="screen">
-        <link href="/addon/help/view/css/prettify.css" rel="stylesheet" type="text/css" media="screen">
-        <link href="/addon/help/view/css/styles.css" rel="stylesheet" type="text/css" media="screen">
-        <link href="/addon/help/view/css/rainbow/themes/tomorrow-night.css" rel="stylesheet" type="text/css" media="screen">
-        <link href="/addon/help/view/css/rainbowlines/theme.css" rel="stylesheet" type="text/css" media="screen">
+        <link href="/addon/docs/view/css/bootswatch/Cosmo/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen">
+        <link href="/addon/docs/view/css/jquery.tocify.css" rel="stylesheet" type="text/css" media="screen">
+        <link href="/addon/docs/view/css/jquery-ui.css" rel="stylesheet" type="text/css" media="screen">
+        <link href="/addon/docs/view/css/prettify.css" rel="stylesheet" type="text/css" media="screen">
+        <link href="/addon/docs/view/css/styles.css" rel="stylesheet" type="text/css" media="screen">
+        <link href="/addon/docs/view/css/rainbow/themes/tomorrow-night.css" rel="stylesheet" type="text/css" media="screen">
+        <link href="/addon/docs/view/css/rainbowlines/theme.css" rel="stylesheet" type="text/css" media="screen">
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -92,11 +92,55 @@
                         <h2 class="underline">Administrators</h2>
                         <p></p>
                         <h3>Prerequisites</h3>
-                        <p></p>
+                        <p>We've tried very hard to ensure that Hubzilla will run on commodity
+                        hosting platforms - such as those used to host Wordpress blogs and Drupal 
+                        websites. It will run on most any Linux VPS system. Windows LAMP platforms
+                        such as XAMPP and WAMP are not officially supported at this time - however 
+                        we welcome patches if you manage to get it working. 
+
+                        Be aware that the Hubzilla is more than a simple web application. It is a 
+                        complex communications system which more closely resembles an email server 
+                        than a web server. For reliability and performance, messages are delivered in
+                        the background and are queued for later delivery when sites are down. This
+                        kind of functionality requires a bit more of the host system than the typical
+                        blog. Not every PHP/MySQL hosting provider will be able to support the 
+                        Hubzilla. Many will - but please review the requirements and confirm these 
+                        with your hosting provider prior to installation. (And preferably before 
+                        entering into a long-term contract.)
+
+                        If you encounter installation issues, please let us know via the Github issue 
+                        tracker (https://github.com/redmatrix/hubzilla/issues). Please be as clear as you 
+                        can about your operating environment and provide as much detail as possible
+                        about any error messages you may see, so that we can prevent it from happening 
+                        in the future. Due to the large variety of operating systems and PHP platforms 
+                        in existence we may have only limited ability to debug your PHP installation or 
+                        acquire any missing modules - but we will do our best to solve any general code 
+                        issues.</p>
                         <h3>Installation</h3>
                         <p></p>
-                        <h4>Manual installation</h4>
-                        <p></p>
+                        <h4>Manual installation on a Debian-based system</h4>
+                        <ol>
+                            <li>
+                                <h5>Install required packages</h5>
+                                <pre> 
+                                    <code data-language="shell">
+sudo apt-get install apache2 php5 php5-cli php5-json php5-gd php5-sqlite curl libcurl3 libcurl3-dev php5-curl libapache2-mod-php5 php5-mysql php5-intl php5-mcrypt php5-imagick imagemagick git mailutils sendmail git                                        
+                                    </code>
+                                </pre>
+                            </li>
+                            <li>
+                                <h5>Clone the Hubzilla core repo to your web root</h5>
+                                <pre> 
+                                    <code data-language="shell">
+cd /var/www/
+git clone https://github.com/redmatrix/hubzilla.git mywebsite
+                                    </code>
+                                </pre>
+                            </li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                        </ol>
                         <h4>Automated installation via shell script</h4>
                         <p></p>
                         <h4>Deploy using OpenShift</h4>
@@ -157,17 +201,17 @@
         <!-- Le javascript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="/addon/help/view/js/rainbow/rainbow.min.js"></script>
-        <script src="/addon/help/view/js/rainbow/language/generic.js"></script>
-        <script src="/addon/help/view/js/rainbow/language/html.js"></script>
-        <script src="/addon/help/view/js/rainbow/language/css.js"></script>
-        <script src="/addon/help/view/js/rainbow/language/javascript.js"></script>
-        <script src="/addon/help/view/js/rainbowlines/rainbow.linenumbers.js"></script>
-        <script src="/addon/help/view/js/jquery.min.js"></script>
-        <script src="/addon/help/view/js/jquery-ui.min.js"></script>
-        <script src="/addon/help/view/js/bootstrap.min.js"></script>
-        <script src="/addon/help/view/js/jquery.tocify.min.js"></script>
-        <script src="/addon/help/view/js/prettify.js"></script>
+        <script src="/addon/docs/view/js/rainbow/rainbow.min.js"></script>
+        <script src="/addon/docs/view/js/rainbow/language/generic.js"></script>
+        <script src="/addon/docs/view/js/rainbow/language/html.js"></script>
+        <script src="/addon/docs/view/js/rainbow/language/css.js"></script>
+        <script src="/addon/docs/view/js/rainbow/language/javascript.js"></script>
+        <script src="/addon/docs/view/js/rainbowlines/rainbow.linenumbers.js"></script>
+        <script src="/addon/docs/view/js/jquery.min.js"></script>
+        <script src="/addon/docs/view/js/jquery-ui.min.js"></script>
+        <script src="/addon/docs/view/js/bootstrap.min.js"></script>
+        <script src="/addon/docs/view/js/jquery.tocify.min.js"></script>
+        <script src="/addon/docs/view/js/prettify.js"></script>
 
         <script>
                     $(function () {
