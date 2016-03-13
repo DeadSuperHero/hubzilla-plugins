@@ -76,6 +76,24 @@ section h3 {
     color: #43478A;
 }
 
-section h2, h3 {
+section h2, h3, h4 {
+    color: #43478A;
+}
+
+.faq {
+    border: RGBA(67, 71, 138, 0.78) dashed thin;
+    padding: 15px;
+    margin-top: 10px;
+}
+
+pre {
+    white-space: nowrap;
+    overflow-x: scroll; /*for horizontal scroll bar */
+    overflow-y: auto; /*for hiding vertical scroll bar */
+}
+
+.faq-question {
+    font-style: italic;
+    font-size: 1.3em;
     color: #43478A;
 }

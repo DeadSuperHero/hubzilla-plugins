@@ -95,10 +95,47 @@
                         <p></p>
                         <h3>Installation</h3>
                         <p></p>
-                        <h3>Installation</h3>
+                        <h4>Manual installation</h4>
+                        <p></p>
+                        <h4>Automated installation via shell script</h4>
+                        <p></p>
+                        <h4>Deploy using OpenShift</h4>
+                        <p></p>
+                        <h4>Install as a YunoHost app</h4>
                         <p></p>
                         <h3>FAQ</h3>
-                        <p></p>
+                        <p>These are questions frequently asked by hub admins.</p>
+                        <div class="faq">
+                            <p class="faq-question">I want to run a social network as an alternative to Facebook/Google/Twitter/Instagram/..., but Hubzilla is too advanced/complicated for my hub members. Is there a way to make it easier to use, preferably by crippling/removing all the features that make Hubzilla unique and revolutionary?</p>
+                            <p>Sure you can! At installation time, you can choose to run an UNO configured hub instead of enabling the advanced features.</p>
+                        </div>
+                        <div class="faq">
+                            <p class="faq-question">Is there a way to have multiple administrators?</p>
+                            <p>Yes, but it's a bit messy at the moment as it is not yet exposed in the UI.  To make an account an administrative account, one needs to add 4096 to the account_roles entry in the account table of the database.  Likewise, to remove administrative permissions, one must subtract 4096 from the account roles.</p> 
+                        </div>
+                        <div class="faq">
+                            <p class="faq-question">What do the different directory mode settings mean?</p>
+                            <pre> 
+                                <code data-language="javascript">
+// Configure how we communicate with directory servers.
+// DIRECTORY_MODE_NORMAL     = directory client, we will find a directory (all of your member's queries will be directed elsewhere)
+// DIRECTORY_MODE_SECONDARY  = caching directory or mirror (keeps in sync with realm primary [adds significant cron execution time])
+// DIRECTORY_MODE_PRIMARY    = main directory server (you do not want this unless you are operating your own realm. one per realm.)
+// DIRECTORY_MODE_STANDALONE = "off the grid" or private directory services (only local site members in directory)
+
+                                </code>
+                            </pre>
+                            <ul>
+                                <li>The default is NORMAL. This off-loads most directory services to a different server. The server used is the config:system/directory_server. This setting MAY be updated by the code to one of the project secondaries if the current server is unreachable. You should either be in control of this other server, or should trust it to use this setting.</li>
+                                <li>SECONDARY. This allows your local site to act as a directory server without exposing your member's queries to another server. It requires extra processing time during the cron polling, and is not recommended to be run on a shared web host.</li>
+                                <li>PRIMARY. This allows you to run a completely separate 'Network' of directory servers with your own Realm. By default, all servers are on the RED_GLOBAL realm unless the config:system/directory_realm setting is overridden. Do not use this unless you have your own directory_realm.</li>
+                                <li>STANDALONE. This is like primary, except it's a 'Network' all on it's own without talking to any other servers. Use this if you have only one server and want to be segregated from the Red#Matrix directory listings.</li>
+                            </ul>
+                        </div>
+                        <div class="faq">
+                            <p class="faq-question"></p>
+                            <p></p> 
+                        </div>
                     </section>
                     <br><br>
                     
